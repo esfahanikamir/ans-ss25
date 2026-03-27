@@ -22,18 +22,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # Vagrant configuration for ANS-SS25 VM
 
 Vagrant.require_version ">= 2.3.0"
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/focal64"
-  config.vm.hostname = "ans-vm"
+  config.vm.box = "generic/ubuntu2004"
+  config.vm.synced_folder ".", "/vagrant", type: "nfs", mount_options: ["vers=3,tcp"]
+  config.vm.hostname = "ans-vm-qemu"
   config.ssh.forward_agent = true
   config.ssh.forward_x11 = true
   config.vm.box_check_update = false
 
   # Specify the memory and CPU cores for the VM
-  config.vm.provider :virtualbox do |vb|
-    vb.memory = 8192    # 8 GB
-    vb.cpus = 16        # 16 cores
+  config.vm.provider :libvirt do |lv|
+    lv.memory = 8192    # 8 GB
+    lv.cpus = 4        # 4 cores
   end
 
   # Install the packages and libraries needed by the labs

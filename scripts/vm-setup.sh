@@ -79,7 +79,8 @@ sudo apt-get install -y --no-install-recommends \
   mininet \
   openvswitch-switch \
   openvswitch-common \
-  vlc
+  vlc \
+  x11-xserver-utils
 
 # Install Ryu network controller and Mininet packages
 sudo pip install ryu
@@ -92,4 +93,8 @@ sudo pip install eventlet==0.30.2
 # Install needed Python libraries
 pip install networkx
 pip install matplotlib
+
+# Fixes the xforwarding issue with qemu
+sudo sh -c 'echo "X11UseLocalhost no" >> /etc/ssh/sshd_config'
+sudo systemctl restart sshd
 
